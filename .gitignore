@@ -1,0 +1,6 @@
+npm-debug.log*
+app/logs/*
+app/data/*
+app/static/bower/
+node_modules/
+coverage/
