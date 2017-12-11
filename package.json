@@ -1,10 +1,11 @@
 {
     "name": "not-config",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "not-* family module for share application config not- environment",
     "main": "index.js",
     "scripts": {
         "test": "./node_modules/.bin/mocha --reporter spec",
+        "pretest": "./node_modules/.bin/eslint ./src/**/**",
         "lint": "./node_modules/.bin/eslint ./src/**/**",
         "docs": "./node_modules/.bin/jsdoc -c jsdoc.json",
         "cover": "istanbul cover _mocha $(find ./test -name \"*.js\" -not -path \"./node_modules/*\")"

@@ -2,11 +2,12 @@
  * @module not-config
  */
 
-
 /**
   * Interface for nconf reader
   */
 exports.reader = require('nconf');
+
+
 
 /**
  * Read configuration from specified file
@@ -15,8 +16,8 @@ exports.reader = require('nconf');
 
 exports.init = (config_path)=>{
 	try{
-		nconf.argv().env('__').file({file: config_path});
+		exports.reader.argv().env('__').file({file: config_path});
 	}catch(e){
-
+		return false;
 	}
 };
