@@ -31,6 +31,7 @@ exports.init = (config_path, modules_key)=>{
 			currentModulesKey = modules_key;
 		}
 		exports.reader.argv().env('__').file({file: config_path});
+		return exports.reader;
 	}catch(e){
 		return false;
 	}
