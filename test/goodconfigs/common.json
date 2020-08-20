@@ -1,0 +1,8 @@
+{
+	"name": "test file 1",
+	"modules2":{
+		"test":{
+			"variants": ["1","2","3"]
+		}
+	}
+}

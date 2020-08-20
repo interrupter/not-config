@@ -1,8 +1,9 @@
 const path = require('path'),
-	notPath = require('not-path');
+	notPath = require('not-path'),
+	deepmerge = require('./deepmerge.js');
 
 const ENV = process.env.NODE_ENV || 'development';
-const CONFIG = {};
+var CONFIG = {};
 
 exports.PATH = null;
 
@@ -61,9 +62,9 @@ exports.init = (config_path, modules_key = OPT_MODULES_KEY)=>{
 		}
 		exports.PATH = config_path;
 		let commonConf = exports.loadConfig('common');
-		Object.assign(CONFIG, commonConf);
+		CONFIG = deepmerge(CONFIG, commonConf);
 		let envConf = exports.loadConfig(ENV);
-		Object.assign(CONFIG, envConf);
+		CONFIG = deepmerge(CONFIG, envConf);
 		exports.importENV();
 		return exports.createReader();
 	}catch(e){
