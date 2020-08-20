@@ -90,7 +90,9 @@ exports.createReader = (moduleName = false)=>{
 	}
 	return {
 		get(key = ''){
-			return notPath.get(joinKeys(prefix, key), CONFIG);
+			let fullkey = joinKeys(prefix, key);
+			while(fullkey.indexOf(':') > -1){fullkey = fullkey.replace(':', OPT_KEYS_SEPARATOR);}
+			return notPath.get(fullkey, CONFIG);
 		}
 	};
 };
