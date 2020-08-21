@@ -94,6 +94,16 @@ exports.createReader = (moduleName = false)=>{
 			let fullkey = joinKeys(prefix, key);
 			while(fullkey.indexOf(':') > -1){fullkey = fullkey.replace(':', OPT_KEYS_SEPARATOR);}
 			return notPath.get(fullkey, CONFIG);
+		},
+		set(key = '', value){
+			if(!key){
+				return this;
+			}else{
+				let fullkey = joinKeys(prefix, key);
+				while(fullkey.indexOf(':') > -1){fullkey = fullkey.replace(':', OPT_KEYS_SEPARATOR);}
+				notPath.set(fullkey, CONFIG, value);
+				return this;
+			}
 		}
 	};
 };
