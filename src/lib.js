@@ -27,11 +27,11 @@ const OPT_KEYS_SEPARATOR_ENV = '__';
  */
 var currentModulesKey = OPT_MODULES_KEY;
 
-exports.getConfPath = (name)=>{
+exports.getConfPath = exports.getPath = (name)=>{
 	return path.join(exports.PATH, name + '.json');
 };
 
-exports.loadConfig = (name)=>{
+exports.loadConfig = exports.load = (name)=>{
 	return require(exports.getConfPath(name));
 };
 
@@ -86,7 +86,7 @@ function joinKeys(a, b){
 	return fullkey;
 }
 
-exports.createReader = (moduleName = false)=>{
+exports.createReader = exports.create = (moduleName = false)=>{
 	let prefix = '';
 	if(moduleName){
 		prefix = [currentModulesKey, moduleName].join(OPT_KEYS_SEPARATOR);
@@ -121,6 +121,6 @@ exports.createReader = (moduleName = false)=>{
  * @param {string} moduleName name of the module
  * @return {object} read-only interface
  */
-exports.readerForModule = (moduleName)=>{
+exports.readerForModule = exports.forModule = (moduleName)=>{
 	return exports.createReader(moduleName);
 };
