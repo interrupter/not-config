@@ -54,9 +54,11 @@ exports.importENV = ()=>{
 
 exports.init = (config_path, modules_key = OPT_MODULES_KEY)=>{
 	try{
+		//clearing storage
 		while(Object.keys(CONFIG).length){
 			delete CONFIG[Object.keys(CONFIG)[0]];
 		}
+		//updating current modules key if presented
 		if (modules_key) {
 			currentModulesKey = modules_key;
 		}
@@ -90,10 +92,15 @@ exports.createReader = (moduleName = false)=>{
 		prefix = [currentModulesKey, moduleName].join(OPT_KEYS_SEPARATOR);
 	}
 	return {
-		get(key = ''){
+		get(key = '', fallback = undefined){
 			let fullkey = joinKeys(prefix, key);
 			while(fullkey.indexOf(':') > -1){fullkey = fullkey.replace(':', OPT_KEYS_SEPARATOR);}
-			return notPath.get(fullkey, CONFIG);
+			let result = notPath.get(fullkey, CONFIG);
+			if(typeof fallback !== 'undefined' && typeof result === 'undefined'){
+				return fallback;
+			}else{
+				return result;
+			}
 		},
 		set(key = '', value){
 			if(!key){
@@ -114,7 +121,6 @@ exports.createReader = (moduleName = false)=>{
  * @param {string} moduleName name of the module
  * @return {object} read-only interface
  */
-
 exports.readerForModule = (moduleName)=>{
 	return exports.createReader(moduleName);
 };
