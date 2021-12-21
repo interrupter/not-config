@@ -122,5 +122,8 @@ exports.createReader = exports.create = (moduleName = false)=>{
  * @return {object} read-only interface
  */
 exports.readerForModule = exports.forModule = (moduleName)=>{
+	if(moduleName.indexOf('-')>-1){
+		moduleName = moduleName.split('-')[1];
+	}
 	return exports.createReader(moduleName);
 };
