@@ -91,6 +91,16 @@ function joinKeys(a, b) {
     return fullkey;
 }
 
+const OBSOLETE_MESSAGES = {};
+
+function obsoleteMessageForKey(key, msg = undefined) {
+    if (msg) {
+        OBSOLETE_MESSAGES[key] = msg;
+    } else {
+        return OBSOLETE_MESSAGES[key];
+    }
+}
+
 exports.createReader = exports.create = (moduleName = false) => {
     let prefix = "";
     if (moduleName) {
@@ -99,6 +109,10 @@ exports.createReader = exports.create = (moduleName = false) => {
     return {
         get(key = "", fallback = undefined) {
             let fullkey = joinKeys(prefix, key);
+            if (obsoleteMessageForKey(fullkey)) {
+                // eslint-disable-next-line no-console
+                console.error(obsoleteMessageForKey(fullkey));
+            }
             while (fullkey.indexOf(":") > -1) {
                 fullkey = fullkey.replace(":", OPT_KEYS_SEPARATOR);
             }
@@ -112,13 +126,16 @@ exports.createReader = exports.create = (moduleName = false) => {
                 return result;
             }
         },
-        set(key = "", value) {
+        set(key = "", value, obsoleteMessage = undefined) {
             if (!key) {
                 return this;
             } else {
                 let fullkey = joinKeys(prefix, key);
                 while (fullkey.indexOf(":") > -1) {
                     fullkey = fullkey.replace(":", OPT_KEYS_SEPARATOR);
+                }
+                if (obsoleteMessage) {
+                    obsoleteMessageForKey(fullkey, obsoleteMessage);
                 }
                 notPath.set(fullkey, CONFIG, value);
                 return this;
