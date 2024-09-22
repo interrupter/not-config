@@ -101,11 +101,10 @@ function obsoleteMessageForKey(key, msg = undefined) {
     }
 }
 
-exports.createReader = exports.create = (moduleName = false) => {
-    let prefix = "";
-    if (moduleName) {
-        prefix = [currentModulesKey, moduleName].join(OPT_KEYS_SEPARATOR);
-    }
+exports.createReader = exports.create = (moduleName = "") => {
+    const prefix = moduleName
+        ? [currentModulesKey, moduleName].join(OPT_KEYS_SEPARATOR)
+        : "";
     return {
         get(key = "", fallback = undefined) {
             let fullkey = joinKeys(prefix, key);
