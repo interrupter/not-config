@@ -25,9 +25,12 @@ const OPT_KEYS_SEPARATOR_ENV = "__";
 /**
  * @member {string} currentModulesKey root of modules configurations directory
  */
-var currentModulesKey = OPT_MODULES_KEY;
+let currentModulesKey = OPT_MODULES_KEY;
 
 exports.getConfPath = exports.getPath = (name) => {
+    if (exports.PATH === null && typeof exports.PATH !== "undefined") {
+        throw new Error("Config PATH is null or undefined");
+    }
     return path.join(exports.PATH, name + ".json");
 };
 
